@@ -1,5 +1,13 @@
 <?php 
 
+function query($query){
+  //mysqli query function
+    
+    global $connection;
+    return mysqli_query($connection, $query);
+    
+}
+
 
 function imagePlcaceholder($image=''){
     
@@ -51,6 +59,45 @@ function isLoggedIn(){
     return false;
     
 }
+
+
+function loggedInUserId(){
+     
+    if(isLoggedIn()){
+        
+       $result = query("SELECT * FROM users WHERE user_name = '{$_SESSION['username']}'"); 
+        
+        $user = mysqli_fetch_array($result);
+        
+        if(mysqli_num_rows($result) >= 1){
+            return $user['user_id'];
+            
+        }
+        
+    }
+
+   
+}
+
+function userLikedPost($post_id){
+    
+    $result = query("SELECT * FROM likes WHERE user_id = ".loggedInUserId()." AND post_id = {$post_id}");
+    
+    return mysqli_num_rows($result) >= 1 ? true : false;
+    
+}
+
+function getPostLikes($post_id){
+    
+    $result = query("SELECT * FROM likes WHERE post_id = $post_id");
+    confirmQuery($result);
+    
+    echo mysqli_num_rows($result);
+    
+    
+}
+
+
 
 
 function checkIfUserIsLoggedInAndRedirect($redirectLocation=null){

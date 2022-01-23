@@ -28,6 +28,30 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+   
+     <style>
+        span.glyphicon.glyphicon-thumbs-up{
+            
+            font-size: 22px ;
+        }
+         
+         
+         a.like, a.unlike, p.likes, p.login-to-like{
+             
+            font-size: 22px;
+             
+         } 
+         
+         a.unlike{
+             
+            font-size: 22px;
+            
+             
+         }
+    
+    </style>
+    
 
 </head>
 

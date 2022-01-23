@@ -7,12 +7,68 @@
     <?php include "includes/navigation.php"; ?>
     
 <?php 
-
+//like function for post
 if(isset($_POST['liked'])){
     
-    echo "<h1>IT WORKS</h1>";
+    $liked_post_id = $_POST['post_id'];
+    $liked_user_id = $_POST['user_id'];
+    
+    //1. fetching the post
+    
+    
+    $query = "SELECT * FROM post WHERE post_id = $liked_post_id ";
+    $postResult = mysqli_query($connection, $query);
+    
+    $post = mysqli_fetch_array($postResult);
+    $likes = $post['likes'];
+         
+    
+    //2. update post with likes
+    
+    
+    mysqli_query($connection, "UPDATE post SET likes = $likes+1 WHERE post_id = $liked_post_id");
+    
+    
+    
+    
+    //3. create likes for posts
+    
+    mysqli_query($connection, "INSERT INTO likes(user_id, post_id) VALUES($liked_user_id, $liked_post_id)");
+    
+    exit();
     
 }
+
+//unlike function for post
+
+if(isset($_POST['unliked'])){
+    
+    $liked_post_id = $_POST['post_id'];
+    $liked_user_id = $_POST['user_id'];
+    
+    //1. fetching the post
+    
+    
+    $query = "SELECT * FROM post WHERE post_id = $liked_post_id ";
+    $postResult = mysqli_query($connection, $query);
+    
+    $post = mysqli_fetch_array($postResult);
+    $likes = $post['likes'];
+         
+    
+    //2. DELETE likes
+    
+     mysqli_query($connection, "DELETE FROM likes WHERE post_id = $liked_post_id AND user_id = $liked_user_id");
+    
+    
+     //3. UPDATE THE DECREMENTING LIKES 
+    
+    mysqli_query($connection, "UPDATE post SET likes = $likes-1 WHERE post_id = $liked_post_id");
+    
+    exit();
+    
+}
+
 
 ?>
     
@@ -92,20 +148,37 @@ if(isset($_POST['liked'])){
                 
 
                 <hr>
-                
-                <div class="row">
-                    
-                    <p class="pull-right font"><a class="like" href="#"><span class="glyphicon glyphicon-thumbs-up"></span>Like </a></p>
-                    
-                </div>
-                
-                <div class="row">
-                    
-                    <p class="pull-right">Likes: 10</p>
-                    
-                </div>
-                
 
+                
+<?php 
+
+if(isLoggedIn()){ ?>
+    
+    
+<div class="row">
+
+    <p class="pull-right font"><a class="<?php echo userLikedPost($the_post_id) ? 'unlike' : 'like'; ?>" href=""><span class="glyphicon glyphicon-thumbs-up"></span><?php echo userLikedPost($the_post_id) ? ' Unlike' : ' Like'; ?></a></p>
+
+</div>
+
+<?php }else{ ?>
+
+
+<div class="row">
+
+    <p class="login-to-like pull-right">You Need to <a href="/cms/login">Login</a> to LIKE.</p>
+
+</div>
+
+<?php }                    
+                
+?>
+
+<div class="row">
+
+    <p class="likes pull-right">Likes: <?php echo getPostLikes($the_post_id); ?></p>
+
+</div>
                <?php } 
                 
                 
@@ -281,8 +354,10 @@ $create_comment_query = mysqli_query($connection,$query);
            $(document).ready(function(){
                
            var post_id = <?php echo $the_post_id; ?>
-                   
-                var user_id = 4;    
+
+           var user_id = <?php echo loggedInUserId(); ?>  
+             
+            //like   
                
              $('.like').click(function(){
                  
@@ -299,7 +374,30 @@ $create_comment_query = mysqli_query($connection,$query);
                  });
                  
                  
-             });  
+             }); 
+               
+               
+            //unlike
+               
+               
+            $('.unlike').click(function(){
+                 
+                 $.ajax({
+                     
+                     url: "/cms/post.php?p_id=<?php echo $the_post_id; ?>",
+                     type: 'post',
+                     data: { 
+                         'unliked': 1,
+                         'post_id': post_id,
+                         'user_id': user_id
+                     }
+                     
+                 });
+                 
+                 
+             });   
+               
+               
                
                
            }); 
