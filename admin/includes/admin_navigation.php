@@ -77,7 +77,7 @@
                     if($_SESSION['user_role'] == 'admin'){ ?>
                         
                         <li>
-                        <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="dashboard.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     
                     <?php }

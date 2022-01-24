@@ -17,6 +17,18 @@
                 <?php 
                 
                 
+                if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin'){
+
+
+               
+                  
+
+                } else{
+
+              $query_post_count = "SELECT * FROM post WHERE post_status= 'published'";
+                    
+                }
+              
                 $query = "SELECT * FROM post WHERE post_status = 'published' ";
                 $select_all_post_query = mysqli_query($connection, $query);
                 while($row = mysqli_fetch_assoc($select_all_post_query)){

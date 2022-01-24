@@ -40,24 +40,21 @@
                     
                     
                 }
+               
                 
-                
-                
-                if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin'){
+               if(isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin'){
 
 
-                $query_post_count = "SELECT * FROM post ";
+                $query_post_count = "SELECT * FROM post LIMIT $page_1, 2";
                     
                   
 
                 } else{
 
-                $query_post_count = "SELECT * FROM post WHERE post_status = 'published' ";
+              $query_post_count = "SELECT * FROM post WHERE post_status= 'published' LIMIT $page_1, 2";
                     
-                   
+               }
                     
-                }
-            
                 
                 $find_count = mysqli_query($connection, $query_post_count);
                 $count = mysqli_num_rows($find_count);
@@ -72,13 +69,13 @@
                 
                 
                 
-                $count = ceil($count / 5);
+                //$count = ceil($count / 4 );
                 
                 
                 
                 
-                $query = "SELECT * FROM post LIMIT $page_1, 5";
-                $select_all_post_query = mysqli_query($connection, $query);
+               //$query = "SELECT * FROM post LIMIT $page_1, 5";
+                $select_all_post_query = mysqli_query($connection, $query_post_count);
                 while($row = mysqli_fetch_assoc($select_all_post_query)){
                 $post_id = $row['post_id'];
                 $post_title = $row['post_title'];
@@ -158,14 +155,14 @@
         if($i == $page){
             
             
-             echo "<li><a class='active_link' href='index.php?page=$i'>$i</a></li>";
+             echo "<li '><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>";
             
             
             
         } else{
             
             
-             echo "<li><a href='index.php?page=$i'>$i</a></li>";
+             echo "<li '><a href='index.php?page={$i}'>{$i}</a></li>";
             
         }
         
@@ -173,7 +170,7 @@
       
         
     }    
-        
+ 
         
     ?>   
         

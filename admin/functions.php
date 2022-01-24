@@ -70,7 +70,7 @@ function loggedInUserId(){
         $user = mysqli_fetch_array($result);
         
         if(mysqli_num_rows($result) >= 1){
-            return $user['user_name'];
+            return $user['user_id'];
             
             
         }
@@ -123,6 +123,33 @@ function get_all_user_posts(){ //admin my panel //
     
 }
 
+function get_all_posts_user_comments(){ //admin my panel //
+    
+    
+    return query("SELECT * FROM post INNER JOIN comments ON post.post_id = comments.comment_post_id WHERE post_author= '{$_SESSION['username']}' ");
+    
+    
+    
+}
+
+
+function get_all_users_published_posts(){ //admin my panel admin/index.php//
+    
+    
+    return query("SELECT * FROM post WHERE post_status = 'published' AND post_author = '{$_SESSION['username']}'");
+
+}
+
+function get_all_users_unpublished_posts(){
+    
+    return query("SELECT * FROM post WHERE post_status = 'unpublished' AND post_author = '{$_SESSION['username']}'");
+  
+}
+
+function get_all_users_posts_unapproved_comments(){
+    
+    return query("SELECT * FROM post INNER JOIN comments ON post.post_id = comments.comment_post_id WHERE post.post_author= '{$_SESSION['username']}' AND comments.comment_status='UNAPPROVED' ");
+}
 
 
 //=========End user specific helpers ========//

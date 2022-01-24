@@ -46,7 +46,7 @@
 <!--           widgets -->
            
            <div class="row">
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
@@ -79,7 +79,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-green">
             <div class="panel-heading">
                 <div class="row">
@@ -92,7 +92,7 @@
                     <?php 
                         
                    
-                    $comment_counts = recordCount('comments');;
+                    $comment_counts = count_records(get_all_posts_user_comments());
                         
                     echo "<div class='huge'>{$comment_counts}</div>";
                     ?>  
@@ -114,45 +114,8 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-user fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                    
-                    
-                    
-                    <?php 
-                        
-                   
-                    $users_counts = recordCount('users');
-                        
-                    echo "<div class='huge'>{$users_counts}</div>";
-                    ?> 
-                    
-                    
-                    
-                    
-                    
-                    
-
-                        <div> Users</div>
-                    </div>
-                </div>
-            </div>
-            <a href="users.php">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
+    
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-red">
             <div class="panel-heading">
                 <div class="row">
@@ -197,35 +160,23 @@
            
    <?php 
                 
-     
-//    $query = "SELECT * FROM post";
-//    $select_all_posts = mysqli_query($connection,$query);
+ 
 
-    $all_post_counts = count_records(get_all_user_posts());
+    $post_published_counts = count_records(get_all_users_published_posts());
 
-
-    $query = "SELECT * FROM post WHERE post_status = 'published' AND post_author = '{$_SESSION['username']}'";
-    $select_all_published_posts = mysqli_query($connection,$query);
-
-    $post_published_counts = mysqli_num_rows($select_all_published_posts);
-
-    $query = "SELECT * FROM post WHERE post_status = 'unpublished'";
-    $select_all_unpublished_posts = mysqli_query($connection,$query);
-
-    $post_unpublished_counts = mysqli_num_rows($select_all_unpublished_posts);
+    
+    $post_unpublished_counts = count_records(get_all_users_unpublished_posts());
                 
-                
-    $query = "SELECT * FROM comments WHERE comment_status = 'UNAPPROVED'";
-    $select_all_unapproved_comments = mysqli_query($connection,$query);
 
-    $post_unapproved_comment_counts = mysqli_num_rows($select_all_unapproved_comments); 
+
+    $post_unapproved_comment_counts = count_records(get_all_users_posts_unapproved_comments()); 
                 
                 
                 
     $query = "SELECT * FROM users WHERE user_role = 'subscriber'";
     $select_all_subscribers = mysqli_query($connection,$query);
 
-    $subscriber_counts = mysqli_num_rows($select_all_subscribers); 
+//    $subscriber_counts = mysqli_num_rows($select_all_subscribers); 
                 
     
                 
@@ -248,10 +199,10 @@
             
            <?php 
             
-            $element_text = ['Posts','Published Posts', 'Draft Posts', 'Comments', 'Unapproved Comments', 'Users', 'Subscriber', 'Categories' ];
-            $element_count = [$all_post_counts, $post_published_counts,  $post_unpublished_counts, $comment_counts, $post_unapproved_comment_counts, $users_counts, $subscriber_counts, $category_counts];
+            $element_text = ['Posts','Published Posts', 'Draft Posts', 'Comments', 'Unapproved Comments'];
+            $element_count = [$post_counts, $post_published_counts,  $post_unpublished_counts, $comment_counts, $post_unapproved_comment_counts];
             
-            for($i = 0; $i<8 ; $i++){
+            for($i = 0; $i<5 ; $i++){
                 
                 
                 echo "['{$element_text[$i]}'" ."," . "{$element_count[$i]}],";

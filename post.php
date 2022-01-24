@@ -236,7 +236,9 @@ $create_comment_query = mysqli_query($connection,$query);
                 ?>
 
                 <!-- Comments Form -->
-                <div class="well">
+                <?php if(isLoggedIn()): ?>
+                   
+                   <div class="well">
                     <h4>Leave a Comment:</h4>
                     <form action='' method="post" role="form">
                        
@@ -256,6 +258,8 @@ $create_comment_query = mysqli_query($connection,$query);
                         <button type="submit" name="create_comment" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
+                
+                 <?php endif; ?>
 
                 <hr>
 
