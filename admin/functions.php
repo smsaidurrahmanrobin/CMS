@@ -70,7 +70,8 @@ function loggedInUserId(){
         $user = mysqli_fetch_array($result);
         
         if(mysqli_num_rows($result) >= 1){
-            return $user['user_id'];
+            return $user['user_name'];
+            
             
         }
         
@@ -111,7 +112,20 @@ function checkIfUserIsLoggedInAndRedirect($redirectLocation=null){
     
 }
 
+//=========user specific helpers ========//
 
+function get_all_user_posts(){ //admin my panel //
+    
+    
+    return query("SELECT * FROM post WHERE post_author= '{$_SESSION['username']}' ");
+    
+    
+    
+}
+
+
+
+//=========End user specific helpers ========//
 
 
 function escape($string){
@@ -231,6 +245,7 @@ function delete_categories(){
 }
 }
 
+//=====DATABASE HELPERS====//
 
 function recordCount($table){
     
@@ -250,7 +265,14 @@ function recordCount($table){
     
 }
 
+function count_records($result){
+    
+    return mysqli_num_rows($result);
+    
+    
+}
 
+//=====END DATABASE HELPERS====//
 
 
 function users_online(){

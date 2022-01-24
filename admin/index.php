@@ -57,7 +57,7 @@
                     
                     <?php 
                         
-                   $post_counts = recordCount('post');
+                   $post_counts = count_records(get_all_user_posts());
                         
                     echo "<div class='huge'>{$post_counts}</div>";
                     ?>  
@@ -198,13 +198,13 @@
    <?php 
                 
      
-    $query = "SELECT * FROM post";
-    $select_all_posts = mysqli_query($connection,$query);
+//    $query = "SELECT * FROM post";
+//    $select_all_posts = mysqli_query($connection,$query);
 
-    $all_post_counts = mysqli_num_rows($select_all_posts);
+    $all_post_counts = count_records(get_all_user_posts());
 
 
-    $query = "SELECT * FROM post WHERE post_status = 'published' ";
+    $query = "SELECT * FROM post WHERE post_status = 'published' AND post_author = '{$_SESSION['username']}'";
     $select_all_published_posts = mysqli_query($connection,$query);
 
     $post_published_counts = mysqli_num_rows($select_all_published_posts);
