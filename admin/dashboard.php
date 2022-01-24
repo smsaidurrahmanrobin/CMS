@@ -30,10 +30,10 @@
                        
                        
                         <h1 class="page-header">
-                           Welcom to ADMIN Control, <page></page>
+                           Welcom to ADMIN Control Home <page></page>
                            
                             
-                              <small><?php echo strtoupper($_SESSION['username']); ?></small>
+                              <small><?php echo $_SESSION['username']; ?></small>
                         </h1>
                         
                         
