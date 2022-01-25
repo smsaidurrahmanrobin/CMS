@@ -6,10 +6,41 @@
 
 require 'vendor/autoload.php';
 
+///SETTING LANGUAGE VARIABLES
+
+if(isset($_GET['language']) && !empty($_GET['language'])){
+    
+    $_SESSION['language'] = $_GET['language'];
+    
+    
+    if(isset($_SESSION['language']) && $_SESSION['language'] != $_GET['language']){
+        
+        echo "<script type='text/javascript'>location.reload();</script>";
+        
+    }
+   
+}
+    
+    if(isset($_SESSION['language'])){
+        
+        include "includes/languages/".$_SESSION['language'].".php";
+        
+        
+    }else{
+        
+       include "includes/languages/en.php"; 
+        
+    }
+    
+
+
+///END OF SETTING LANGUAGE VARIABLES////
+
+
+////PUSHER
+
 $dotenv = new \Dotenv\Dotenv(__DIR__);
 $dotenv->load();
-
-
 
 
 $options = array(
@@ -19,6 +50,9 @@ $options = array(
 
 $pusher = new Pusher\Pusher(getenv('APP_KEY'), getenv('APP_SECRET'), getenv('APP_ID'), $options);
 
+
+
+//AUTHENTICATION
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     
     $username = trim($_POST['username']);
@@ -124,17 +158,35 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
  
     <!-- Page Content -->
     <div class="container">
-    
+   
+<!--   language selecting form-->
+    <form method="get" class="navbar-form navbar-right" action="" id="language_form">
+        
+       <div class="form-group">
+           
+           <select name="language" class="form-control" onchange="changeLanguage()" >
+               
+               <option value="en" <?php if(isset($_SESSION['language']) && $_SESSION['language'] == 'en'){ echo "selected English";} ?> >English</option>
+               <option value="bn" <?php if(isset($_SESSION['language']) && $_SESSION['language'] == 'bn'){ echo "selected Bangla";} ?>>Bangla</option>
+               
+               
+           </select>
+           
+       </div> 
+        
+    </form>
+     
+       
 <section id="login">
     <div class="container">
         <div class="row">
             <div class="col-xs-6 col-xs-offset-3">
                 <div class="form-wrap">
-                    <center><h1>Register</h1></center>
+                    <center><h1><?php echo _REGISTER; ?></h1></center>
                     <form role="form" action="registration.php" method="post" id="login-form" autocomplete="on">
                         <div class="form-group" autocomplete="on">
                             <label for="username" class="sr-only">username</label>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username" autocomplete="on"
+                            <input type="text" name="username" id="username" class="form-control" placeholder="<?php echo _USERNAME; ?>" autocomplete="on"
                             
                             value="<?php echo isset($username) ? $username : '' ?>" >
                             
@@ -173,7 +225,19 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 </section>
 
 
-        <hr>
+<hr>
+
+
+
+<script>
+        
+ function changeLanguage(){
+     
+     document.getElementById('language_form').submit();
+     
+ }       
+        
+</script>
 
 
 
