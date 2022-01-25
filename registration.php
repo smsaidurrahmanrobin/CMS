@@ -163,7 +163,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                             
                         </div>
                 
-                        <input type="submit" name="register" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
+                        <input type="submit" name="register" id="btn-login" class="btn btn-primary btn-lg btn-block" value="Register">
                     </form>
                  
                 </div>
